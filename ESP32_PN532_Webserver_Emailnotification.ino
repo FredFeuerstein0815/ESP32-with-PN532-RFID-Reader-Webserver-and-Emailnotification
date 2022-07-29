@@ -11,11 +11,11 @@
 #include <FS.h>
 #include <SPIFFS.h>
 
-#define SMTP_HOST "mail.gmx.net"
+#define SMTP_HOST "mail.gmx.net" // your mail provider
 #define SMTP_PORT 587
-#define AUTHOR_EMAIL "absender@gmx.de"
-#define AUTHOR_PASSWORD "geheim"
-#define RECIPIENT_EMAIL "empfaenger@gmx.de"
+#define AUTHOR_EMAIL "absender@gmx.de" // sender adress, also change it in Line 390 of Code
+#define AUTHOR_PASSWORD "geheim" // mail password
+#define RECIPIENT_EMAIL "empfaenger@gmx.de" // recipient of mail
 
 SMTPSession smtp;
 void smtpCallback(SMTP_Status status);
@@ -26,10 +26,10 @@ PN532_SWHSU pn532swhsu( SWSerial );
 
 PN532 nfc( pn532swhsu );
 
-const char* ssid = "WLAN_SSID";
-const char* password = "geheim";
+const char* ssid = "WLAN_SSID"; // Wifi SSID
+const char* password = "geheim"; // Wifi Password
 
-IPAddress local_IP(192, 168, 0, 99);
+IPAddress local_IP(192, 168, 0, 99); // IP for the ESP32
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8);
@@ -37,8 +37,8 @@ IPAddress secondaryDNS(8, 8, 4, 4);
 
 const char* input_parameter = "state";
 
-const int output = 16;
-const int Push_button_GPIO = 39 ;
+const int output = 16; // Output GPIO
+const int Push_button_GPIO = 39 ; // if you want to use a Button too
 
 // Variables will change:
 int LED_state = HIGH;         
@@ -260,7 +260,7 @@ success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
   
     Serial.println("");
 
-  uint8_t code1[4] = { 0x00, 0x00, 0x00, 0x01 } ;
+  uint8_t code1[4] = { 0x00, 0x00, 0x00, 0x01 } ; // your UID from RFID-Tags
   uidLength = 4 ;
 
   uint8_t code2[4] = { 0x00, 0x00, 0x00, 0x02 } ;
@@ -403,7 +403,7 @@ else {Serial.println("Falsche UID");
   if (!MailClient.sendMail(&smtp, &message))
     Serial.println("Fehler beim versenden der Email, " + smtp.errorReason());
     
-       delay(30000);}
+       delay(30000);} // dont accept RFID-Tags for 30s if wrong UID was tried
     
 Serial.println("Nächster Versuch");
   }
